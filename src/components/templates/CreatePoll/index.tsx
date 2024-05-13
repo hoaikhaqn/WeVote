@@ -6,15 +6,19 @@ import endpoints from "@/config/endpoints"
 import routes from "@/config/routes"
 import { useCustomNavigation } from "@/hooks/useCustomNavigation"
 import fetchAPI from "@/lib/fetch"
+import { RootState } from "@/lib/redux/store"
 import { PollDocument } from "@/models/polls"
+import { Permissions } from "@/types/user"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { PlusIcon, Trash2 } from "lucide-react"
-import { useRouter } from "next/navigation"
-import React, { useMemo } from "react"
+import { notFound, useRouter } from "next/navigation"
+import React, { useLayoutEffect, useMemo } from "react"
 import { useFieldArray, useForm } from "react-hook-form"
+import { useSelector } from "react-redux"
 import { z } from "zod"
 
 export default function CreatePollTemplate() {
+  const { id: UserId, permission } = useSelector((state: RootState) => state.user)
   const router = useCustomNavigation()
   const optionObj = z.object({
     value: z.string().min(1)
@@ -54,7 +58,13 @@ export default function CreatePollTemplate() {
     }
   }
   // console.log(formState.errors);
+  useLayoutEffect(() => {
+    if (permission !== Permissions.ADMIN) {
+      notFound()
+    }
+  }, [permission])
 
+  if (!UserId) return null
   return (
     <div className="container py-10">
       <Form {...form}>
