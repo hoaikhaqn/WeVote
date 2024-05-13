@@ -14,7 +14,7 @@ import { PollDocument } from "@/models/polls"
 import { PollStatus } from "@/types/enum"
 import { UserMode } from "@/types/user"
 import { CaretLeftIcon } from "@radix-ui/react-icons"
-import { Loader2, User2 } from "lucide-react"
+import { Loader2, User2, Users2 } from "lucide-react"
 import Link from "next/link"
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react"
 import { useSelector } from "react-redux"
@@ -70,7 +70,7 @@ export default function LivePollTemplate({ data }: Props) {
         <div className="flex gap-4">
           <SwitchVote />
           <div className="flex gap-2 items-center">
-            <User2 className="w-4 h-4" />
+            <Users2 className="w-4 h-4" />
             <span>{data.responder_total.toLocaleString("en-US")}</span>
           </div>
         </div>

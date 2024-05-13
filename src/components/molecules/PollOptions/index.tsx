@@ -4,6 +4,7 @@ import { Progress } from "@/components/ui/progress"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { PollOption } from "@/models/polls"
 import classes from "classnames"
+import { User2 } from "lucide-react"
 import React, { useEffect, useState } from "react"
 
 type Props = {
@@ -26,7 +27,6 @@ export default function PollOptions({ options = [], value, defaultValue, onChang
   useEffect(() => {
     setSelectedValue(value?.toString())
   }, [value])
-  
 
   return (
     <RadioGroup
@@ -51,7 +51,10 @@ export default function PollOptions({ options = [], value, defaultValue, onChang
               <RadioGroupItem value={(index + 1).toString()} id={(index + 1).toString()} />
               <span className="font-medium leading-5">{option.label}</span>
             </div>
-            <b>{option.percent}%</b>
+            <div className="flex items-center space-x-3">
+              <div className="flex items-center space-x-1"><User2 className="w-3 h-3"/><span className="text-sm">{option.count}</span></div>
+              <b>{option.percent}%</b>
+            </div>
           </div>
           <Progress value={option.percent} className="h-[8px] bg-secondaryBackground" />
         </Label>

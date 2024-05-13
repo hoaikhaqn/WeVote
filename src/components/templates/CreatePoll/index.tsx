@@ -4,6 +4,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import { Input } from "@/components/ui/input"
 import endpoints from "@/config/endpoints"
 import routes from "@/config/routes"
+import { useCustomNavigation } from "@/hooks/useCustomNavigation"
 import fetchAPI from "@/lib/fetch"
 import { PollDocument } from "@/models/polls"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -14,7 +15,7 @@ import { useFieldArray, useForm } from "react-hook-form"
 import { z } from "zod"
 
 export default function CreatePollTemplate() {
-  const router = useRouter()
+  const router = useCustomNavigation()
   const optionObj = z.object({
     value: z.string().min(1)
   })
