@@ -4,6 +4,7 @@ import SearchBar from "@/components/molecules/SearchBar"
 import { Button } from "@/components/ui/button"
 import endpoints from "@/config/endpoints"
 import routes from "@/config/routes"
+import { useCustomNavigation } from "@/hooks/useCustomNavigation"
 import fetchAPI from "@/lib/fetch"
 import { RootState } from "@/lib/redux/store"
 import { LastPoll, PollDocument } from "@/models/polls"
@@ -18,7 +19,7 @@ type Props = {
 }
 
 export default function HomePageTemplate() {
-  const router = useRouter()
+  const router = useCustomNavigation()
   const { id: userId } = useSelector((state: RootState) => state.user)
   const [lastPolls, setLastPolls] = useState<LastPoll[]>()
 

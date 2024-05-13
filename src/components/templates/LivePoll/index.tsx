@@ -3,6 +3,7 @@ import { sendResponseAction } from "@/actions/poll.action"
 import PollOptions from "@/components/molecules/PollOptions"
 import SwitchVote from "@/components/molecules/SwitchVote"
 import { Button } from "@/components/ui/button"
+import LinkEnhanced from "@/components/ui/link"
 import endpoints from "@/config/endpoints"
 import routes from "@/config/routes"
 import fetchAPI from "@/lib/fetch"
@@ -62,10 +63,10 @@ export default function LivePollTemplate({ data }: Props) {
         <h4 className="text-2xl font-bold">{data.poll_subject}</h4>
       </center>
       <div className="flex justify-between my-5 w-full">
-        <Link href={routes.home} className="flex gap-2 items-center cursor-pointer hover:underline">
+        <LinkEnhanced href={routes.home} className="flex gap-2 items-center cursor-pointer hover:underline">
           <CaretLeftIcon />
           <span>Back</span>
-        </Link>
+        </LinkEnhanced>
         <div className="flex gap-4">
           <SwitchVote />
           <div className="flex gap-2 items-center">

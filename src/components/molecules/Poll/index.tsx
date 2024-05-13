@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button"
+import LinkEnhanced from "@/components/ui/link"
 import routes from "@/config/routes"
 import { PollDocument } from "@/models/polls"
 import { LogIn } from "lucide-react"
@@ -19,9 +20,9 @@ export default function PollItem({ data }: Props) {
       <p>|</p>
       <p className="flex-1 text-left text-ellipsis overflow-hidden whitespace-nowrap ...">{data.poll_subject}</p>
       <Button type="button" className="rounded-full" size="icon">
-        <Link href={routes.livePoll(data.poll_id)}>
+        <LinkEnhanced href={routes.livePoll(data.poll_id)}>
           <LogIn />
-        </Link>
+        </LinkEnhanced>
         {/* <Loader2 className="m-auto h-6 w-6 animate-spin" /> */}
       </Button>
     </div>
