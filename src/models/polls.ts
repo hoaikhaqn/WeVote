@@ -12,6 +12,7 @@ export type PollDocument = {
   responder_total: number
   responders?: PollResponseDocument[]
   poll_status: PollStatus
+  owner_id: string
   created_at: string
   updated_at: string
 }
@@ -52,7 +53,11 @@ const schema = new Schema(
       type: Number,
       required: true,
       default: PollStatus.OPENED
-    }
+    },
+    owner_id: {
+      type: String,
+      required: true
+    },
   },
   {
     

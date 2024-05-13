@@ -18,7 +18,7 @@ import { useSelector } from "react-redux"
 import { z } from "zod"
 
 export default function CreatePollTemplate() {
-  const { id: UserId, permission } = useSelector((state: RootState) => state.user)
+  const { id: userId, permission } = useSelector((state: RootState) => state.user)
   const router = useCustomNavigation()
   const optionObj = z.object({
     value: z.string().min(1)
@@ -50,7 +50,8 @@ export default function CreatePollTemplate() {
       method: "POST",
       payload: {
         subject: data.poll_subject,
-        options: data.poll_options.map((opt) => opt.value)
+        options: data.poll_options.map((opt) => opt.value),
+        owner_id: userId
       }
     })
     if (PollData) {
@@ -64,7 +65,7 @@ export default function CreatePollTemplate() {
     }
   }, [permission])
 
-  if (!UserId) return null
+  if (!userId) return null
   return (
     <div className="container py-10">
       <Form {...form}>

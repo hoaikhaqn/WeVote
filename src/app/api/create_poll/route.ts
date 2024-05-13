@@ -6,13 +6,14 @@ import { NextRequest, NextResponse } from "next/server"
 export const POST = async (request: NextRequest) => {
   try {
     await connectDB()
-    const { subject, options } = await request.json()
+    const { subject, options, owner_id } = await request.json()
 
-    if (subject && options) {
+    if (subject && options && owner_id) {
       const new_record = {
         poll_id: Math.floor(Math.random() * 900000) + 100000,
         poll_subject: subject,
-        poll_options: options.map((label: string) => ({ label, count: 0, percent: 0 }))
+        poll_options: options.map((label: string) => ({ label, count: 0, percent: 0 })),
+        owner_id
       }
 
       const PollResult = await Polls.create(new_record)

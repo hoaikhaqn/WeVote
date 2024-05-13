@@ -1,5 +1,6 @@
 "use client"
-import { sendResponseAction } from "@/actions/poll.action"
+import { sendResponseAction, closePollAction } from "@/actions/poll.action"
+import PollMoreActions from "@/components/molecules/PollMoreActions"
 import PollOptions from "@/components/molecules/PollOptions"
 import SwitchVote from "@/components/molecules/SwitchVote"
 import { Button } from "@/components/ui/button"
@@ -14,8 +15,7 @@ import { PollDocument } from "@/models/polls"
 import { PollStatus } from "@/types/enum"
 import { UserMode } from "@/types/user"
 import { CaretLeftIcon } from "@radix-ui/react-icons"
-import { Loader2, User2, Users2 } from "lucide-react"
-import Link from "next/link"
+import { Loader2, Users2 } from "lucide-react"
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react"
 import { useSelector } from "react-redux"
 
@@ -46,6 +46,12 @@ export default function LivePollTemplate({ data }: Props) {
     }
   }
 
+  const handleClosePoll = async () => {
+    if (data?.poll_id) {
+      await closePollAction(data?.poll_id)
+    }
+  }
+
   useLayoutEffect(() => {
     if (data) {
       const defaultValue = getResultPolls(data.poll_id)
@@ -67,12 +73,15 @@ export default function LivePollTemplate({ data }: Props) {
           <CaretLeftIcon />
           <span>Back</span>
         </LinkEnhanced>
-        <div className="flex gap-4">
+        <div className="flex items-center gap-4">
           <SwitchVote />
           <div className="flex gap-2 items-center">
             <Users2 className="w-4 h-4" />
             <span>{data.responder_total.toLocaleString("en-US")}</span>
           </div>
+          {data.owner_id === user.id && (
+            <PollMoreActions closePollDisabled={data.poll_status === PollStatus.CLOSED} onClosePoll={handleClosePoll} />
+          )}
         </div>
       </div>
       <PollOptions value={selectedValue} options={data.poll_options} onChange={(v) => setSelectedValue(v)} />

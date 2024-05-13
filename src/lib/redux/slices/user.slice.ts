@@ -24,6 +24,7 @@ export const UserSlice = createSlice({
       state.id = user.id
       state.name = user.name
       state.mode = user.mode
+      state.permission = user.permission
     },
     changeName: (state,action) => {
       const name = action.payload
