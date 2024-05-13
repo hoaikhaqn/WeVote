@@ -2,16 +2,17 @@ import endpoints from "@/config/endpoints"
 import fetchAPI from "@/lib/fetch"
 import { showNotification } from "@/lib/notification/api"
 import SocketIO from "@/lib/socket"
-import { changeUsername, getUserInfo, switchUserMode } from "@/lib/utils"
+import {changeUsername, getUserInfo, switchUserMode, switchUserPermission } from "@/lib/utils"
 import { Dispatch, UnknownAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { AppDispatch } from "../store"
 import { PollDocument } from "@/models/polls"
-import { IUser, UserMode } from "@/types/user"
+import { IUser, Permissions, UserMode } from "@/types/user"
 
 const initialState: IUser = {
   id: "",
   name: "",
   mode: UserMode.ANONYMOUS,
+  permission: Permissions.GUESS
 }
 
 export const UserSlice = createSlice({
@@ -36,10 +37,15 @@ export const UserSlice = createSlice({
       const mode = action.payload
       state.mode = mode
       switchUserMode(mode)
+    },
+    switchPermission: (state,action) => {
+      const permission = action.payload
+      state.permission = permission
+      switchUserPermission(permission)
     }
   }
 })
 
-export const { loadUser, changeName, switchMode } = UserSlice.actions
+export const { loadUser, changeName, switchMode, switchPermission } = UserSlice.actions
 const UserReducer = UserSlice.reducer
 export default UserReducer

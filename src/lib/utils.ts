@@ -1,4 +1,4 @@
-import { IUser, UserMode } from "@/types/user"
+import { IUser, Permissions, UserMode } from "@/types/user"
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 
@@ -11,7 +11,8 @@ export const createGuess = (): IUser => {
     id: new Date().getTime().toString(),
     name: "",
     mode: UserMode.ANONYMOUS,
-    voted: {}
+    voted: {},
+    permission: Permissions.GUESS
   }
   localStorage.setItem("poll_user_info", JSON.stringify(user))
   return user
@@ -25,7 +26,7 @@ export const getUserInfo = (): IUser => {
       return JSON.parse(localStorage.getItem("poll_user_info") || "{}")
     }
   }
-  return { id: "", name: "", mode: UserMode.ANONYMOUS }
+  return { id: "", name: "", mode: UserMode.ANONYMOUS, permission: Permissions.GUESS }
 }
 
 export const changeUsername = (name:string) => {
@@ -37,8 +38,18 @@ export const changeUsername = (name:string) => {
     }
     localStorage.setItem("poll_user_info", JSON.stringify(user))
   }
-  return { id: "", name: "", mode: UserMode.ANONYMOUS }
+  return { id: "", name: "", mode: UserMode.ANONYMOUS, permission: Permissions.GUESS }
 }
+
+export const switchUserPermission = (permission:string) => {
+  if (typeof window !== "undefined") {
+    const user = JSON.parse(localStorage.getItem("poll_user_info") || "{}")
+    user.permission = permission
+    localStorage.setItem("poll_user_info", JSON.stringify(user))
+  }
+  return { id: "", name: "", mode: UserMode.ANONYMOUS, permission: Permissions.GUESS }
+}
+
 
 export const saveResultPolls = (pollId:string,option_number:number) => {
   if (typeof window !== "undefined") {
@@ -46,7 +57,7 @@ export const saveResultPolls = (pollId:string,option_number:number) => {
     user.voted[pollId] = option_number
     localStorage.setItem("poll_user_info", JSON.stringify(user))
   }
-  return { id: "", name: "", mode: UserMode.ANONYMOUS }
+  return { id: "", name: "", mode: UserMode.ANONYMOUS, permission: Permissions.GUESS }
 }
 
 export const getResultPolls = (pollId:string) => {
